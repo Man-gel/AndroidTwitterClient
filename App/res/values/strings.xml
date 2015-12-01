@@ -3,7 +3,10 @@
 
     <string name="app_name">twitter</string>
     <string name="action_settings">Ajustes</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_register">Registro</string>
+    <string name="userName">Usuario</string>
+    <string name="userPass">Password</string>
+    <string name="btn_accept">Aceptar</string>
 
 </resources>
