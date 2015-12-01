@@ -7,9 +7,12 @@
     <string name="title_activity_register">Registro</string>
     <string name="userName">Usuario</string>
     <string name="userPass">Password</string>
-    <string name="btn_accept">Aceptar</string>
+    <string name="btn_accept">Ingresar</string>
     <string name="nombre">Nombre</string>
     <string name="edad">Edad</string>
     <string name="conf_pass">Confirmar Password</string>
+    <string name="btn_salir">Salir</string>
+    <string name="btn_reg">Registrar</string>
+    <string name="tv_reg">Registrarse</string>
 
 </resources>

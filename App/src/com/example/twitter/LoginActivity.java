@@ -3,6 +3,7 @@ package com.example.twitter;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.Menu;
@@ -10,12 +11,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements View.OnClickListener{
 
 	private EditText usuario;
 	private EditText contraseña;
+	private TextView tvLink;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +26,8 @@ public class LoginActivity extends Activity {
 		setContentView(R.layout.activity_main);
 		usuario = (EditText)findViewById(R.id.et_usuario);
 		contraseña = (EditText)findViewById(R.id.et_password);
+		tvLink = (TextView)findViewById(R.id.tv_linkReg);
+		tvLink.setOnClickListener(this);
 		usuario.requestFocus();
 		InputMethodManager input = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 		input.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);
@@ -81,5 +86,17 @@ public class LoginActivity extends Activity {
 		Toast toast = Toast.makeText(contexto, mensaje, 3);
 		toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
 		toast.show();	
+	}
+
+	@Override
+	public void onClick(View v) 
+	{
+		switch(v.getId())
+		{		
+			case R.id.tv_linkReg:
+				startActivity(new Intent(this, RegisterActivity.class));
+				break;
+		}
+		
 	}
 }
