@@ -8,5 +8,8 @@
     <string name="userName">Usuario</string>
     <string name="userPass">Password</string>
     <string name="btn_accept">Aceptar</string>
+    <string name="nombre">Nombre</string>
+    <string name="edad">Edad</string>
+    <string name="conf_pass">Confirmar Password</string>
 
 </resources>
