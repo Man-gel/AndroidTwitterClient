@@ -16,17 +16,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="11dp"
-        android:onClick="validarUsuario"
         android:text="@string/btn_reg" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/et_password"
-        android:layout_alignLeft="@+id/et_password"
-        android:text="@string/conf_pass"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/TvNombreRegister"
@@ -74,37 +64,6 @@
         android:ems="10"
         android:inputType="textPassword" />
 
-    <EditText
-        android:id="@+id/et_usuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView2"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_marginBottom="97dp"
-        android:ems="10"
-        android:inputType="text" />
-
-    <EditText
-        android:id="@+id/et_NombreRegister"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/TvNombreRegister"
-        android:layout_toLeftOf="@+id/boton"
-        android:ems="10"
-        android:inputType="text" >
-        <requestFocus />
-        </EditText>
-
-    <EditText
-        android:id="@+id/EditText02"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView2"
-        android:layout_alignLeft="@+id/TextView02"
-        android:layout_marginBottom="14dp"
-        android:ems="10"
-        android:inputType="textPassword" />
-
     <TextView
         android:id="@+id/TextView02"
         android:layout_width="wrap_content"
@@ -113,5 +72,41 @@
         android:layout_alignLeft="@+id/et_usuario"
         android:text="@string/userPass"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/et_password"
+        android:layout_alignLeft="@+id/et_password"
+        android:text="@string/conf_pass"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/EditText02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView2"
+        android:layout_alignLeft="@+id/textView2"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/et_usuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_centerVertical="true"
+        android:ems="10"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/et_NombreRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/TextView01"
+        android:layout_marginBottom="14dp"
+        android:ems="10"
+        android:inputType="text" />
 
 </RelativeLayout>

@@ -23,12 +23,11 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_login);
 		usuario = (EditText)findViewById(R.id.et_usuario);
 		contraseña = (EditText)findViewById(R.id.et_password);
 		tvLink = (TextView)findViewById(R.id.tv_linkReg);
 		tvLink.setOnClickListener(this);
-		usuario.requestFocus();
 		InputMethodManager input = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 		input.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);
 	}
