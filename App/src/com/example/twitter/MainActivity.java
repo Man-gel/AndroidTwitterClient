@@ -18,4 +18,6 @@ public class MainActivity extends Activity{
 	{		
 		startActivity(new Intent(this, LoginActivity.class));		
 	}
+	
+	
 }

@@ -13,15 +13,25 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.temboo.core.*;
+import com.temboo.Library.Twitter.Users.*;
+import com.temboo.Library.Twitter.*;
+import com.temboo.Library.Twitter.Users.VerifyCredentials.*;
+import com.temboo.Library.Twitter.Tweets.*;
 
-public class LoginActivity extends Activity implements View.OnClickListener{
 
+public class LoginActivity extends Activity implements View.OnClickListener
+{
+
+	private GetAccountSettings set;
 	private EditText usuario;
 	private EditText contraseña;
 	private TextView tvLink;
-	
+	private TembooSession sesion;
+	private VerifyCredentials credenciales;
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) 
+	{	
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		usuario = (EditText)findViewById(R.id.et_usuario);
@@ -29,30 +39,33 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 		tvLink = (TextView)findViewById(R.id.tv_linkReg);
 		tvLink.setOnClickListener(this);
 		InputMethodManager input = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-		input.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);
+		input.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);		
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
+	public boolean onCreateOptionsMenu(Menu menu) 
+	{
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
+	public boolean onOptionsItemSelected(MenuItem item) 
+	{
 		// Handle action bar item clicks here. The action bar will
 		// automatically handle clicks on the Home/Up button, so long
 		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
-		if (id == R.id.action_settings) {
+		if (id == R.id.action_settings) 
+		{
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
 	
 	public void validarUsuario(View v)
-	{
+	{	
 		String user = usuario.getText().toString();
 		String pass = contraseña.getText().toString();		
 		if(user.isEmpty() || pass.isEmpty())
@@ -62,6 +75,19 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 			usuario.setText("");
 			return;
 		}
+		
+		try 
+		{
+			sesion = new TembooSession(AppSettings.TMB_ACCOUNT_NAME,AppSettings.TMB_APP_KEY_NAME,AppSettings.TMB_APP_KEY_VALUE);
+			set = new GetAccountSettings(sesion);
+			credenciales = new VerifyCredentials(sesion);
+			VerifyCredentialsInputSet verifyCredInput = credenciales.newInputSet();
+		}
+		catch (TembooException e) 
+		{
+			e.printStackTrace();
+		}
+
 		if( !( user.equals("root") && pass.equals("admin")) )
 		{
 			mostrarToast("El nombre de usuario y/o la contraseña no son correctos");
@@ -75,6 +101,7 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 			mostrarToast("Bienvenido "+user+"!");
 			InputMethodManager input = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 			input.hideSoftInputFromWindow(usuario.getWindowToken(),0);
+			startActivity(new Intent(this,MainActivity.class));
 		}
 	}
 	
@@ -96,6 +123,13 @@ public class LoginActivity extends Activity implements View.OnClickListener{
 				startActivity(new Intent(this, RegisterActivity.class));
 				break;
 		}
+		
+	}
+	
+	
+	
+	protected void onPostExecute(String result)
+	{
 		
 	}
 }
