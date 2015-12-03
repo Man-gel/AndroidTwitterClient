@@ -13,7 +13,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.AsyncTask;
+import org.json.*;
 import com.temboo.core.*;
+import com.temboo.core.Choreography.ResultSet;
 import com.temboo.Library.Twitter.Users.*;
 import com.temboo.Library.Twitter.Lists.*;
 import com.temboo.Library.Twitter.Users.VerifyCredentials.*;
@@ -27,7 +30,7 @@ public class LoginActivity extends Activity implements View.OnClickListener
 	private EditText usuario;
 	private EditText contraseña;
 	private TextView tvLink;
-	private TembooSession sesion;
+	private DatosUsuario datosUserLocal;
 	private VerifyCredentials credenciales;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -36,6 +39,7 @@ public class LoginActivity extends Activity implements View.OnClickListener
 		setContentView(R.layout.activity_login);
 		usuario = (EditText)findViewById(R.id.et_usuario);
 		contraseña = (EditText)findViewById(R.id.et_password);
+		datosUserLocal = new DatosUsuario(this);
 		tvLink = (TextView)findViewById(R.id.tv_linkReg);
 		tvLink.setOnClickListener(this);
 		InputMethodManager input = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -77,14 +81,14 @@ public class LoginActivity extends Activity implements View.OnClickListener
 		}
 		
 		try 
-		{
-			sesion = new TembooSession(AppSettings.TMB_ACCOUNT_NAME,AppSettings.TMB_APP_KEY_NAME,AppSettings.TMB_APP_KEY_VALUE);
-			set = new GetAccountSettings(sesion);
-			credenciales = new VerifyCredentials(sesion);
+		{			
+			set = new GetAccountSettings(AppSettings.sesion);
+			credenciales = new VerifyCredentials(AppSettings.sesion);
 			VerifyCredentialsInputSet verificarInput = credenciales.newInputSet();
 			verificarInput.set_AccessToken(AppSettings.TWTR_ACCESS_TOKEN);
 			verificarInput.set_AccessTokenSecret(AppSettings.TWTR_TOKEN_SECRET);
-			VerifyCredentialsResultSet resulSetVerificar = credenciales.execute(verificarInput);
+			VerifyCredentialsResultSet resulSet = credenciales.execute(verificarInput);
+			
 		}
 		catch (TembooException e) 
 		{
@@ -102,9 +106,12 @@ public class LoginActivity extends Activity implements View.OnClickListener
 			contraseña.setText("");
 			usuario.setText("");
 			mostrarToast("Bienvenido "+user+"!");
+			User datosAcceso = null;
+			datosUserLocal.saveDetallesUsuario(datosAcceso);
+			datosUserLocal.setUsuarioLoggeado(true);
 			InputMethodManager input = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 			input.hideSoftInputFromWindow(usuario.getWindowToken(),0);
-			startActivity(new Intent(this,MainActivity.class));
+			startActivity(new Intent(this,Principal.class));
 		}
 	}
 	

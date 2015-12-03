@@ -9,17 +9,23 @@ import android.os.Bundle;
 import android.view.View;
 
 
-public class MainActivity extends Activity{
+public class MainActivity extends Activity
+{
+	private DatosUsuario datosUserLocal;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		datosUserLocal = new DatosUsuario(this);
 		initSesionTemboo();
+		
 	}
 	
 	public void onClickBtn(View v) 
-	{		
+	{
+		datosUserLocal.borrarDatosUser();
+		datosUserLocal.setUsuarioLoggeado(false);
 		startActivity(new Intent(this, LoginActivity.class));		
 	}
 	

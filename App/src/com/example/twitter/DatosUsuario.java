@@ -27,7 +27,22 @@ public class DatosUsuario
 		String nombre = dbLocalUser.getString("nombre", "");
 		String password = dbLocalUser.getString("password", "");
 		String userName = dbLocalUser.getString("userName", "");
-		Integer edad = dbLocalUser.getInt("edad", "");
+		Integer edad = dbLocalUser.getInt("edad", -1);
+		return new User(nombre,edad,userName,password);
+	}
+	
+	public void setUsuarioLoggeado(boolean loggeado)
+	{
+		SharedPreferences.Editor spEditor = dbLocalUser.edit();
+		spEditor.putBoolean("loggedIn", loggeado);
+		spEditor.commit();
+	}
+	
+	public void borrarDatosUser()
+	{
+		SharedPreferences.Editor spEditor = dbLocalUser.edit();
+		spEditor.clear();
+		spEditor.commit();
 	}
 
 }
