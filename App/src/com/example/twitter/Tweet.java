@@ -3,10 +3,11 @@ package com.example.twitter;
 public class Tweet 
 {
 	String screenName,nombreUs,fecha,contenido,retweetCont,imagen;
-	public Tweet(String screenNmb,String nmbUs, String f, String rtwtCnt, String img )
+	public Tweet(String screenNmb,String nmbUs, String f, String cont, String rtwtCnt, String img )
 	{
 		screenName = screenNmb;
 		nombreUs = nmbUs;
+		contenido = cont;
 		fecha = f;
 		retweetCont = rtwtCnt;
 		imagen = img;
