@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.temboo.core.*;
 import com.temboo.Library.Twitter.Users.*;
-import com.temboo.Library.Twitter.*;
+import com.temboo.Library.Twitter.Lists.*;
 import com.temboo.Library.Twitter.Users.VerifyCredentials.*;
 import com.temboo.Library.Twitter.Tweets.*;
 
@@ -81,7 +81,10 @@ public class LoginActivity extends Activity implements View.OnClickListener
 			sesion = new TembooSession(AppSettings.TMB_ACCOUNT_NAME,AppSettings.TMB_APP_KEY_NAME,AppSettings.TMB_APP_KEY_VALUE);
 			set = new GetAccountSettings(sesion);
 			credenciales = new VerifyCredentials(sesion);
-			VerifyCredentialsInputSet verifyCredInput = credenciales.newInputSet();
+			VerifyCredentialsInputSet verificarInput = credenciales.newInputSet();
+			verificarInput.set_AccessToken(AppSettings.TWTR_ACCESS_TOKEN);
+			verificarInput.set_AccessTokenSecret(AppSettings.TWTR_TOKEN_SECRET);
+			VerifyCredentialsResultSet resulSetVerificar = credenciales.execute(verificarInput);
 		}
 		catch (TembooException e) 
 		{
