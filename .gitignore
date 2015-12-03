@@ -25,3 +25,6 @@ proguard/
 
 # Log Files
 *.log
+
+#APPSETTINGS por seguridad
+/App/src/com/example/twitter/AppSettings.java
