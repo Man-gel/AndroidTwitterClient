@@ -34,6 +34,16 @@ public class Principal extends Activity
 		lista.add( new Person(R.drawable.neruda ,"Pablo Neruda","988 7664327") );
 		lista.add( new Person(R.drawable.stallman ,"Richard Stallman","877 6534522") );
 		lista.add( new Person(R.drawable.torvalds ,"Linus Torvalds","561 7665430") );*/
+		lista.add(new Tweet("Michael","@jordan","Hola mundo de tweets","4","03/dic/15",""+R.drawable.ic_launcher));
+		lista.add(new Tweet("Michael","@jordan","Hola mundo","4","03/dic/15",""+R.drawable.ic_launcher));
+		lista.add(new Tweet("Michael","@jordan","Esto es un comentario de prueba","4","03/dic/15",""+R.drawable.ic_launcher));
+		lista.add(new Tweet("Michael","@jordan","Hola mundo de tweets","4","03/dic/15",""+R.drawable.ic_launcher));
+		lista.add(new Tweet("Michael","@jordan","Hola mundo de tweets","4","03/dic/15",""+R.drawable.ic_launcher));
+		lista.add(new Tweet("Michael","@jordan","Hola mundo de tweets","4","03/dic/15",""+R.drawable.ic_launcher));
+		lista.add(new Tweet("Michael","@jordan","Hola mundo de tweets","4","03/dic/15",""+R.drawable.ic_launcher));
+		lista.add(new Tweet("Michael","@jordan","Hola mundo de tweets","4","03/dic/15",""+R.drawable.ic_launcher));
+		lista.add(new Tweet("Michael","@jordan","Hola mundo de tweets","4","03/dic/15",""+R.drawable.ic_launcher));
+		
 		adapter = new MiAdapter(Principal.this,lista);
 		listV = (ListView)findViewById(R.id.lv_personajes);
 		listV.setAdapter(adapter);		

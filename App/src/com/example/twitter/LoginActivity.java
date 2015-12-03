@@ -80,7 +80,7 @@ public class LoginActivity extends Activity implements View.OnClickListener
 			return;
 		}
 		
-		try 
+		/*try 
 		{			
 			set = new GetAccountSettings(AppSettings.sesion);
 			credenciales = new VerifyCredentials(AppSettings.sesion);
@@ -92,8 +92,8 @@ public class LoginActivity extends Activity implements View.OnClickListener
 		}
 		catch (TembooException e) 
 		{
-			e.printStackTrace();
-		}
+			mostrarToast(e.getMessage());
+		}*/
 
 		if( !( user.equals("root") && pass.equals("admin")) )
 		{
@@ -106,7 +106,7 @@ public class LoginActivity extends Activity implements View.OnClickListener
 			contraseña.setText("");
 			usuario.setText("");
 			mostrarToast("Bienvenido "+user+"!");
-			User datosAcceso = null;
+			User datosAcceso = new User(user,pass);
 			datosUserLocal.saveDetallesUsuario(datosAcceso);
 			datosUserLocal.setUsuarioLoggeado(true);
 			InputMethodManager input = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);

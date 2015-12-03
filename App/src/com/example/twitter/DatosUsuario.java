@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 public class DatosUsuario
 {
 	public static final String SP_NAME = "userDetails";
+	
 	SharedPreferences dbLocalUser;
 	
 	public DatosUsuario(Context contexto)
@@ -19,6 +20,7 @@ public class DatosUsuario
 		spEditor.putString("nombre", user.nombre);
 		spEditor.putString("password", user.password);
 		spEditor.putString("userName", user.userName);
+		spEditor.putInt("edad", user.edad);
 		spEditor.commit();
 	}
 	
@@ -27,7 +29,7 @@ public class DatosUsuario
 		String nombre = dbLocalUser.getString("nombre", "");
 		String password = dbLocalUser.getString("password", "");
 		String userName = dbLocalUser.getString("userName", "");
-		Integer edad = dbLocalUser.getInt("edad", -1);
+		Integer edad = dbLocalUser.getInt("edad", 0);
 		return new User(nombre,edad,userName,password);
 	}
 	
@@ -44,5 +46,13 @@ public class DatosUsuario
 		spEditor.clear();
 		spEditor.commit();
 	}
-
+	
+	public boolean getEstadoLoggeado()
+	{
+		if(dbLocalUser.getBoolean("loggedIn", false) == true)
+			return true;
+		else
+			return false;
+	}
+	
 }

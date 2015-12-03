@@ -2,10 +2,10 @@ package com.example.twitter;
 
 public class User
 {
-	String nombre;
+	String nombre = "";
 	String password;
 	String userName;
-	Integer edad;
+	Integer edad = 0;
 	public User(String nom, Integer e, String usName, String psw )
 	{
 		nombre = nom;
@@ -18,8 +18,6 @@ public class User
 	{
 		password = psw;
 		userName = usName;
-		nombre = "";
-		edad = 0;
 	}
 	
 

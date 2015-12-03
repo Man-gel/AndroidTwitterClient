@@ -3,28 +3,61 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginBottom="18dp"
-    android:layout_marginLeft="5dp"
-    android:layout_marginRight="5dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginTop="30dp"
+    android:orientation="horizontal"
     android:background="@color/cakeyellow" >
 
+    
        <ImageView
             android:id="@+id/imgV"
             android:layout_width="50dp"
             android:layout_height="70dp"
             android:layout_marginLeft="6dp"
-            android:layout_weight="0"
-            android:gravity="left"
-            android:baselineAlignBottom="true"
-            android:maxWidth="50dp" />
-
-        <TextView
-            android:id="@+id/txtV"
-            android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:gravity="center"
             android:layout_weight="2"
-            android:maxWidth="170dp"
-            />
+            android:gravity="left"
+            android:maxWidth="50dp" />
+		
+		<RelativeLayout 
+		    android:gravity="center"
+		    android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_weight="2">
+
+		    <TextView
+            	android:id="@+id/txtV"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:layout_centerVertical="true"
+            	android:maxWidth="170dp"
+            	android:maxHeight="20dp"
+            	/>
+
+        	<TextView
+            	android:id="@+id/TextView01"
+	            android:layout_width="wrap_content"
+    	        android:layout_height="wrap_content"
+        	    android:layout_centerVertical="true"
+        	    android:layout_below="@+id/txtV"
+            	android:maxWidth="170dp" />
+
+        	<TextView
+            	android:id="@+id/TextView02"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:layout_centerVertical="true"
+            	android:gravity="center"
+            	android:layout_below="@+id/TextView01"
+            	android:maxWidth="170dp" />
+
+	        <TextView
+    	        android:id="@+id/TextView03"
+            	android:layout_width="wrap_content"
+        	    android:layout_height="wrap_content"
+    	        android:layout_centerVertical="true"
+    	        android:layout_below="@+id/TextView02"
+        	    android:maxWidth="170dp" />
+        </RelativeLayout>
 
 </LinearLayout>

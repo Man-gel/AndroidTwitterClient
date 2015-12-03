@@ -5,4 +5,6 @@
     <color name="blue">#00f </color>
     <color name="lightblue">#0ff </color>
     <color name="cakeyellow">#fb0 </color>
+    <color name="black">#000 </color>
+    <color name="white">#fff </color>
 </resources>

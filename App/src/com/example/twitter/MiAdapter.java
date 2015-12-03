@@ -15,7 +15,10 @@ public class MiAdapter extends ArrayAdapter<Tweet> implements Filterable
 	
 	private static class ViewHolder
 	{
-		private TextView itmView;
+		private TextView tv_nom;
+		private TextView tv_usnom;
+		private TextView tv_cont;
+		private TextView tv_rtF;
 		private ImageView imgView;
 	}
 
@@ -33,7 +36,10 @@ public class MiAdapter extends ArrayAdapter<Tweet> implements Filterable
 		{
 			view = LayoutInflater.from(getContext()).inflate(R.layout.row_list, parent,false);
 			viewHolder = new ViewHolder();
-			viewHolder.itmView = (TextView)view.findViewById(R.id.txtV);
+			viewHolder.tv_nom = (TextView)view.findViewById(R.id.txtV);
+			viewHolder.tv_usnom = (TextView)view.findViewById(R.id.TextView01);
+			viewHolder.tv_cont = (TextView)view.findViewById(R.id.TextView02);
+			viewHolder.tv_rtF = (TextView)view.findViewById(R.id.TextView03);
 			viewHolder.imgView = (ImageView)view.findViewById(R.id.imgV);
 			view.setTag(viewHolder);
 		}
