@@ -3,15 +3,36 @@ package com.example.twitter;
 import com.temboo.core.TembooException;
 import com.temboo.core.TembooSession;
 import android.app.Activity;
+import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 
-public class MainActivity extends Activity
+public class MainActivity extends ListFragment
 {
-	private DatosUsuario datosUserLocal;
+	  @Override
+	  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+	  {
+	        String[] tweets = getArguments().getStringArray("tweets");
+	 
+	        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+	                inflater.getContext(),
+	                android.R.layout.simple_list_item_1,
+	                tweets
+	        );
+	 
+	        // Este método es parte de la clase ListFragment y nos permitirá indicarle cual es el adaptador de la vista.
+	        setListAdapter(arrayAdapter);
+	 
+	        return super.onCreateView(inflater, container, savedInstanceState);
+	   }
+	  
+	/*DatosUsuario datosUserLocal;
 	private EditText et_nomReg, et_01, et_usuario;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,5 +89,6 @@ public class MainActivity extends Activity
 			{
 				e.printStackTrace();
 			}
-	}	
+	}
+	*/	
 }

@@ -38,8 +38,8 @@ public class MiAdapter extends ArrayAdapter<Tweet> implements Filterable
 			viewHolder = new ViewHolder();
 			viewHolder.tv_nom = (TextView)view.findViewById(R.id.txtV);
 			viewHolder.tv_usnom = (TextView)view.findViewById(R.id.TextView01);
-			viewHolder.tv_cont = (TextView)view.findViewById(R.id.TextView02);
-			viewHolder.tv_rtF = (TextView)view.findViewById(R.id.TextView03);
+			viewHolder.tv_cont = (TextView)view.findViewById(R.id.TextView03);
+			viewHolder.tv_rtF = (TextView)view.findViewById(R.id.TextView02);
 			viewHolder.imgView = (ImageView)view.findViewById(R.id.imgV);
 			view.setTag(viewHolder);
 		}
@@ -49,14 +49,13 @@ public class MiAdapter extends ArrayAdapter<Tweet> implements Filterable
 		}
 		if(registro != null)
 		{
-			viewHolder.itmView.setText(formatoTweet(registro.screenName,registro.nombreUs,registro.contenido,registro.fecha,registro.retweetCont));
+			viewHolder.tv_nom.setText(registro.nombre);
+			viewHolder.tv_usnom.setText(registro.screenName);
+			viewHolder.tv_cont.setText(registro.contenido);
+			viewHolder.tv_rtF.setText(registro.retweetCont+" "+registro.fecha);
 			viewHolder.imgView.setImageResource(Integer.parseInt(registro.imagen));
 		}
 		return view;		
-	}
+	}	
 	
-	private String formatoTweet(String screenNmb,String nmbUs, String cont, String rtwtCnt, String f)
-	{
-		return String.format("%s\n%s\n\n%s\nretweets:%s\t%s", screenNmb,nmbUs,cont, rtwtCnt, f);
-	}
 }

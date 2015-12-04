@@ -30,7 +30,7 @@ public class LoginActivity extends Activity implements View.OnClickListener
 	private EditText usuario;
 	private EditText contraseña;
 	private TextView tvLink;
-	private DatosUsuario datosUserLocal;
+	DatosUsuario datosUserLocal;
 	private VerifyCredentials credenciales;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -80,20 +80,21 @@ public class LoginActivity extends Activity implements View.OnClickListener
 			return;
 		}
 		
-		/*try 
+		try 
 		{			
 			set = new GetAccountSettings(AppSettings.sesion);
 			credenciales = new VerifyCredentials(AppSettings.sesion);
 			VerifyCredentialsInputSet verificarInput = credenciales.newInputSet();
 			verificarInput.set_AccessToken(AppSettings.TWTR_ACCESS_TOKEN);
 			verificarInput.set_AccessTokenSecret(AppSettings.TWTR_TOKEN_SECRET);
+			verificarInput.set_ConsumerKey(AppSettings.TWTR_CONSUMER_KEY);
 			VerifyCredentialsResultSet resulSet = credenciales.execute(verificarInput);
 			
 		}
 		catch (TembooException e) 
 		{
 			mostrarToast(e.getMessage());
-		}*/
+		}
 
 		if( !( user.equals("root") && pass.equals("admin")) )
 		{
