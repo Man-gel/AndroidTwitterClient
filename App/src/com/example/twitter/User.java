@@ -19,6 +19,4 @@ public class User
 		password = psw;
 		userName = usName;
 	}
-	
-
 }

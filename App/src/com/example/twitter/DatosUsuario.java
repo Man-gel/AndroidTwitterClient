@@ -5,13 +5,13 @@ import android.content.SharedPreferences;
 
 public class DatosUsuario
 {
-	public static final String SP_NAME = "userDetails";
+	
 	
 	SharedPreferences dbLocalUser;
 	
 	public DatosUsuario(Context contexto)
 	{
-		dbLocalUser = contexto.getSharedPreferences(SP_NAME, 0);
+		dbLocalUser = contexto.getSharedPreferences(AppSettings.SHRD_PREF_NAME, 0);
 	}
 	
 	public void saveDetallesUsuario(User user)

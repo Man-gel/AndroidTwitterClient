@@ -4,34 +4,31 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.os.AsyncTask;
-import org.json.*;
-import com.temboo.core.*;
-import com.temboo.core.Choreography.ResultSet;
-import com.temboo.Library.Twitter.Users.*;
-import com.temboo.Library.Twitter.Lists.*;
-import com.temboo.Library.Twitter.Users.VerifyCredentials.*;
-import com.temboo.Library.Twitter.Tweets.*;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.auth.RequestToken;
 
-
-public class LoginActivity extends Activity implements View.OnClickListener
+public class LoginActivity extends Activity
 {
 
-	private GetAccountSettings set;
 	private EditText usuario;
 	private EditText contraseña;
-	private TextView tvLink;
-	DatosUsuario datosUserLocal;
-	private VerifyCredentials credenciales;
+	private DatosUsuario datosUserLocal;
+	private Twitter t;
+	private RequestToken rqstTkn;
+	private String authURL  = "";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{	
@@ -40,10 +37,7 @@ public class LoginActivity extends Activity implements View.OnClickListener
 		usuario = (EditText)findViewById(R.id.et_usuario);
 		contraseña = (EditText)findViewById(R.id.et_password);
 		datosUserLocal = new DatosUsuario(this);
-		tvLink = (TextView)findViewById(R.id.tv_linkReg);
-		tvLink.setOnClickListener(this);
-		InputMethodManager input = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-		input.toggleSoftInput(InputMethodManager.SHOW_FORCED,InputMethodManager.HIDE_IMPLICIT_ONLY);		
+		initSesionOauth();
 	}
 
 	@Override
@@ -78,24 +72,7 @@ public class LoginActivity extends Activity implements View.OnClickListener
 			contraseña.setText("");
 			usuario.setText("");
 			return;
-		}
-		
-		try 
-		{			
-			set = new GetAccountSettings(AppSettings.sesion);
-			credenciales = new VerifyCredentials(AppSettings.sesion);
-			VerifyCredentialsInputSet verificarInput = credenciales.newInputSet();
-			verificarInput.set_AccessToken(AppSettings.TWTR_ACCESS_TOKEN);
-			verificarInput.set_AccessTokenSecret(AppSettings.TWTR_TOKEN_SECRET);
-			verificarInput.set_ConsumerKey(AppSettings.TWTR_CONSUMER_KEY);
-			VerifyCredentialsResultSet resulSet = credenciales.execute(verificarInput);
-			
-		}
-		catch (TembooException e) 
-		{
-			mostrarToast(e.getMessage());
-		}
-
+		}		
 		if( !( user.equals("root") && pass.equals("admin")) )
 		{
 			mostrarToast("El nombre de usuario y/o la contraseña no son correctos");
@@ -112,7 +89,7 @@ public class LoginActivity extends Activity implements View.OnClickListener
 			datosUserLocal.setUsuarioLoggeado(true);
 			InputMethodManager input = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 			input.hideSoftInputFromWindow(usuario.getWindowToken(),0);
-			startActivity(new Intent(this,Principal.class));
+			startActivity(new Intent(this,MainActivity.class));
 		}
 	}
 	
@@ -126,15 +103,31 @@ public class LoginActivity extends Activity implements View.OnClickListener
 	}
 
 	@Override
-	public void onClick(View v) 
+	protected void onNewIntent(Intent intent)
 	{
-		switch(v.getId())
-		{		
-			case R.id.tv_linkReg:
-				startActivity(new Intent(this, RegisterActivity.class));
-				break;
+		super.onNewIntent(intent);
+		Uri tURI = intent.getData();
+		if(tURI != null && tURI.toString().startsWith(AppSettings.ACCESS_TOKEN_URL))
+		{
+			String oauthVerif = tURI.getQueryParameter("oauth_verifier");
 		}
-		
+	}
+	
+	private void initSesionOauth()
+	{
+		System.out.format("\n\n* * * * INICIANDO requestToken * * * *\n");
+		t = new TwitterFactory().getInstance(); 
+		t.setOAuthConsumer(AppSettings.TWTR_CONSUMER_KEY,AppSettings.TWTR_CONSUMER_SECRET);
+		try
+		{
+			rqstTkn = t.getOAuthRequestToken(AppSettings.ACCESS_TOKEN_URL);
+		}
+		catch(TwitterException e)
+		{
+			Log.e("TwitterException", e.getMessage()+"\n");
+		}
+		authURL = rqstTkn.getAuthenticationURL();
+		startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(authURL)));
 	}
 	
 	

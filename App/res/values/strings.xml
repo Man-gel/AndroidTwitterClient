@@ -16,5 +16,7 @@
     <string name="tv_reg">Registrarse</string>
     <string name="title_activity_principal">Principal</string>
     <string name="btn_search">Buscar</string>
+    <string name="title_activity_time_line">TimeLineActivity</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
