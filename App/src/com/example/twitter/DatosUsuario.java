@@ -17,20 +17,16 @@ public class DatosUsuario
 	public void saveDetallesUsuario(User user)
 	{
 		SharedPreferences.Editor spEditor = dbLocalUser.edit();
-		spEditor.putString("nombre", user.nombre);
-		spEditor.putString("password", user.password);
-		spEditor.putString("userName", user.userName);
-		spEditor.putInt("edad", user.edad);
+		spEditor.putString("user_secret", user.user_secret);
+		spEditor.putString("user_token", user.user_token);
 		spEditor.commit();
 	}
 	
 	public User getDetallesUsuarioLoggeado()
 	{
-		String nombre = dbLocalUser.getString("nombre", "");
-		String password = dbLocalUser.getString("password", "");
-		String userName = dbLocalUser.getString("userName", "");
-		Integer edad = dbLocalUser.getInt("edad", 0);
-		return new User(nombre,edad,userName,password);
+		String user_tkn = dbLocalUser.getString("user_token", "");
+		String user_sec = dbLocalUser.getString("user_secret", "");
+		return new User(user_tkn,user_sec);
 	}
 	
 	public void setUsuarioLoggeado(boolean loggeado)

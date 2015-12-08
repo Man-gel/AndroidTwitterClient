@@ -2,21 +2,19 @@ package com.example.twitter;
 
 public class User
 {
-	String nombre = "";
-	String password;
-	String userName;
-	Integer edad = 0;
-	public User(String nom, Integer e, String usName, String psw )
+	String user_token = "";
+	String user_secret = "";
+	
+	public User(String usTkn, String usScrt)
 	{
-		nombre = nom;
-		edad = e;
-		usName = userName;
-		password = psw;
+		user_token = usTkn;
+		user_secret = usScrt;
 	}
 	
-	public User(String usName, String psw)
+	
+	public User(User u)
 	{
-		password = psw;
-		userName = usName;
+		this.user_secret = u.user_secret;
+		this.user_token = u.user_token;
 	}
 }

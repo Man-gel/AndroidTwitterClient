@@ -6,38 +6,56 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.RequestToken;
 
 public class LoginActivity extends Activity
 {
 
-	private EditText usuario;
-	private EditText contraseña;
-	private DatosUsuario datosUserLocal;
-	private Twitter t;
-	private RequestToken rqstTkn;
-	private String authURL  = "";
-	
+	private WebView webV;
+	private WebSettings webS;
+	private Intent intent;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{	
 		super.onCreate(savedInstanceState);
+		if (android.os.Build.VERSION.SDK_INT > 15) {
+	        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+	                .permitAll().build();
+	        StrictMode.setThreadPolicy(policy);
+	    }
 		setContentView(R.layout.activity_login);
-		usuario = (EditText)findViewById(R.id.et_usuario);
-		contraseña = (EditText)findViewById(R.id.et_password);
-		datosUserLocal = new DatosUsuario(this);
-		initSesionOauth();
+		intent = getIntent();
+		String url = (String)intent.getExtras().get("URL");
+		webV = (WebView)findViewById(R.id.webView1);
+		webS = webV.getSettings();
+		webV.setWebViewClient(new WebViewClient()
+		{
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url)
+			{
+				if(url.contains(AppSettings.CALLBACK_URL))
+				{
+					Uri uri = Uri.parse(url);
+					String oauthVer = uri.getQueryParameter("oauth_verifier");
+					intent.putExtra("oauth_verifier",oauthVer);
+					setResult(RESULT_OK,intent);
+					finish();
+					return true;
+				}
+				return false;
+			}
+		});
+		webS.setJavaScriptEnabled(true);
+		webV.loadUrl(url);		
+		//getAccessToken();
 	}
 
 	@Override
@@ -62,37 +80,6 @@ public class LoginActivity extends Activity
 		return super.onOptionsItemSelected(item);
 	}
 	
-	public void validarUsuario(View v)
-	{	
-		String user = usuario.getText().toString();
-		String pass = contraseña.getText().toString();		
-		if(user.isEmpty() || pass.isEmpty())
-		{
-			mostrarToast("Debe ingresar un nombre de usuario y una contraseña");
-			contraseña.setText("");
-			usuario.setText("");
-			return;
-		}		
-		if( !( user.equals("root") && pass.equals("admin")) )
-		{
-			mostrarToast("El nombre de usuario y/o la contraseña no son correctos");
-			contraseña.setText("");
-			usuario.setText("");
-		}
-		else
-		{
-			contraseña.setText("");
-			usuario.setText("");
-			mostrarToast("Bienvenido "+user+"!");
-			User datosAcceso = new User(user,pass);
-			datosUserLocal.saveDetallesUsuario(datosAcceso);
-			datosUserLocal.setUsuarioLoggeado(true);
-			InputMethodManager input = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-			input.hideSoftInputFromWindow(usuario.getWindowToken(),0);
-			startActivity(new Intent(this,MainActivity.class));
-		}
-	}
-	
 	@SuppressLint("ShowToast")
 	private void mostrarToast(CharSequence mensaje)
 	{
@@ -101,39 +88,5 @@ public class LoginActivity extends Activity
 		toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL, 0, 0);
 		toast.show();	
 	}
-
-	@Override
-	protected void onNewIntent(Intent intent)
-	{
-		super.onNewIntent(intent);
-		Uri tURI = intent.getData();
-		if(tURI != null && tURI.toString().startsWith(AppSettings.ACCESS_TOKEN_URL))
-		{
-			String oauthVerif = tURI.getQueryParameter("oauth_verifier");
-		}
-	}
 	
-	private void initSesionOauth()
-	{
-		System.out.format("\n\n* * * * INICIANDO requestToken * * * *\n");
-		t = new TwitterFactory().getInstance(); 
-		t.setOAuthConsumer(AppSettings.TWTR_CONSUMER_KEY,AppSettings.TWTR_CONSUMER_SECRET);
-		try
-		{
-			rqstTkn = t.getOAuthRequestToken(AppSettings.ACCESS_TOKEN_URL);
-		}
-		catch(TwitterException e)
-		{
-			Log.e("TwitterException", e.getMessage()+"\n");
-		}
-		authURL = rqstTkn.getAuthenticationURL();
-		startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse(authURL)));
-	}
-	
-	
-	
-	protected void onPostExecute(String result)
-	{
-		
-	}
 }
