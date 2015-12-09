@@ -54,6 +54,7 @@ public class LoginActivity extends Activity
 			}
 		});
 		webS.setJavaScriptEnabled(true);
+		webS.setSavePassword(false);
 		webV.loadUrl(url);		
 		//getAccessToken();
 	}

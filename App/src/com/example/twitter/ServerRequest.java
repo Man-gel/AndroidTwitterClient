@@ -1,9 +1,15 @@
 package com.example.twitter;
 
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Date;
+
 import android.content.Context;
 import android.util.Log;
 import twitter4j.AsyncTwitter;
 import twitter4j.AsyncTwitterFactory;
+import twitter4j.ResponseList;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -58,13 +64,14 @@ public class ServerRequest
 	public void salirTWTR()
 	{
 		dataUser.borrarDatosUser();
+		dataUser.setUsuarioLoggeado(false);
 	}
 	
 	public boolean verificarLogin()
 	{
 		if(dataUser.getEstadoLoggeado())
 		{
-			Log.e("UsuarioLoggeado", "Datos de token exsite ya");
+			Log.e("UsuarioLoggeado", "Datos de token existe ya");
 			return true;
 		}
 		else
@@ -95,6 +102,37 @@ public class ServerRequest
 		}
 		else
 			return false;
+	}
+	
+	public ArrayList<Tweet> consultarTimeLine()
+	{
+		ArrayList<Tweet> tLine = new ArrayList<Tweet>();
+		try 
+		{
+			@SuppressWarnings("rawtypes")
+			ResponseList<Status> lista = t.getHomeTimeline();
+			for(Status s : lista)
+			{
+				Tweet twt = new Tweet(s.getUser().getName(),
+						              s.getUser().getScreenName(),
+						              ""+s.getCreatedAt().compareTo(new Date()),
+						              s.getText(),
+						              ""+s.getRetweetCount(),
+						              s.getUser().getProfileImageURL().toString());
+				System.out.format("\n%s\n",twt.toString());
+				tLine.add(twt);
+				
+			}
+		}
+		catch(ConcurrentModificationException e)
+		{
+			Log.e("\n* * *ConcurrentModificationException en responseList", e.getMessage());
+		}
+		catch (TwitterException e)
+		{
+			Log.e("\n* * *TwitterException en responseList", e.getMessage());
+		}
+		return tLine;
 	}
 		
 }

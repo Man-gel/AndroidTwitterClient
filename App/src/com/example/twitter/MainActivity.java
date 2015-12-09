@@ -5,14 +5,17 @@ import android.util.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.os.StrictMode;
 import android.support.v4.app.*;
 import android.view.View;
+import android.widget.ProgressBar;
 import twitter4j.ResponseList;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -30,6 +33,7 @@ public class MainActivity extends FragmentActivity
 	public static  RequestToken rqstTkn;
 	//private String authURL  = "";
 	private ServerRequest request;
+	private ProgressBar pb;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -48,9 +52,9 @@ public class MainActivity extends FragmentActivity
 		{	
 			Intent i = new Intent(MainActivity.this, LoginActivity.class);
 			i.putExtra("URL", request.getauthURL());
-			startActivity(i);		
+			startActivityForResult(i,1);		
 		}
-		setContentView(R.layout.activity_main);					
+		setContentView(R.layout.activity_main);
 	}
 	
 	@Override
@@ -62,24 +66,7 @@ public class MainActivity extends FragmentActivity
 	private boolean autenticado()
 	{
 		return request.verificarLogin();
-	}	
-	
-	/*	
-	private void initSesionOauth() throws TwitterException, IOException
-	{	
-		t = new TwitterFactory().getInstance(); 
-		t.setOAuthConsumer(AppSettings.TWTR_CONSUMER_KEY,AppSettings.TWTR_CONSUMER_SECRET);
-		rqstTkn = t.getOAuthRequestToken(AppSettings.CALLBACK_URL);
-		authURL = rqstTkn.getAuthorizationURL();
-		
-		AccessToken acsTkn = null;
-		BufferedReader bfR = new BufferedReader(new InputStreamReader(System.in));
-		Intent intent = new Intent(getApplicationContext(),LoginActivity.class);
-		Bundle b = new Bundle();
-		b.putString("authorizationURL", authURL);
-		intent.putExtras(b);
-		startActivityForResult(intent,1);//new Intent(Intent.ACTION_VIEW,Uri.parse(authURL)));
-	}*/
+	}		
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
@@ -88,9 +75,12 @@ public class MainActivity extends FragmentActivity
 		{
 			String oauthVer = (String)data.getExtras().get("oauth_verifier");
 			Log.e( "oauth_verifier -> ", oauthVer);
-			System.out.format("\n\n* * * * Authorization URL: %s\n",oauthVer);
-			startActivity(new Intent(this, TimeLineActivity.class));
+			System.out.format("\n\n* * * * Authorization: %s\n",oauthVer);
 			request.saveOauthVerif(oauthVer);
+			ArrayList<Tweet> tl = request.consultarTimeLine();
+			Intent i = new Intent(getApplicationContext(), TimeLineActivity.class);
+			i.putExtra("timeline",  tl);
+			startActivity(i);			
 		}
 	}
 		

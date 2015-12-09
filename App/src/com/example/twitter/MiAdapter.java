@@ -53,7 +53,7 @@ public class MiAdapter extends ArrayAdapter<Tweet> implements Filterable
 			viewHolder.tv_usnom.setText(registro.screenName);
 			viewHolder.tv_cont.setText(registro.contenido);
 			viewHolder.tv_rtF.setText(registro.retweetCont+" "+registro.fecha);
-			viewHolder.imgView.setImageResource(Integer.parseInt(registro.imagen));
+			viewHolder.imgView.setImageResource(R.drawable.egg);
 		}
 		return view;		
 	}	
